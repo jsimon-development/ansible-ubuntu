@@ -1,7 +1,6 @@
 ---
 - name: Add PHP 7.3 to source list
   apt_repository: repo="ppa:ondrej/php" state=present
-  update: yes
 
 - name: Install PHP 7.3
   apt: name={{item}} state=latest
