@@ -1,10 +1,9 @@
 ---
 
 - name: Check MySQL version
-  command: "mysql -v"
+  command: "mysql -V"
   register: mysql_version
   ignore_errors: true
-  failed_when: "'can be found in the following packages' in mysql_version.stdout"
 
 - name: Install MySQL
   apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time={{ aptcachetime }}
@@ -15,7 +14,7 @@
     - mytop
   when: 
     - ansible_distribution == 'Ubuntu' and ansible_distribution_version == '16.04'
-    - mysql_version is failed
+    - '"can be found in the following packages" in mysql_version.stdout'
 
 - name: Configure MySQL Password Lifetime
   lineinfile: dest=/etc/mysql/my.cnf
@@ -45,13 +44,13 @@
     - localhost
   when: 
     - ansible_distribution == 'Ubuntu' and ansible_distribution_version == '16.04'
-    - mysql_version is failed
+    - '"can be found in the following packages" in mysql_version.stdout'
 
 - name: Configure MySQL for easy access as root user
   action: template src=root.my.cnf.j2 dest=/root/.my.cnf mode=0600
   when: 
    - ansible_distribution == 'Ubuntu' and ansible_distribution_version == '16.04'
-   - mysql_version is failed
+   - '"can be found in the following packages" in mysql_version.stdout'
 
 - name: Remove the MySQL test database
   mysql_db: db=test state=absent login_user=root login_password={{ mysql.password }}
