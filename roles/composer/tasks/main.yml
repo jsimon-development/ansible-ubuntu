@@ -4,6 +4,7 @@
   command: "which composer"
   register: composer_version
   ignore_errors: yes
+  failed_when: false
 
 - name: Install Composer
   shell: curl -sS https://getcomposer.org/installer | php && mv -f ./composer.phar /usr/local/bin/composer

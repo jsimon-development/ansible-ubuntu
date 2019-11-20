@@ -3,6 +3,8 @@
 - name: Check if MySQL is installed
   command: "which mysql"
   register: mysql_version
+  ignore_errors: yes
+  failed_when: false
 
 - name: Install MySQL
   apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time={{ aptcachetime }}
@@ -43,7 +45,7 @@
     - localhost
   when: 
     - ansible_distribution == 'Ubuntu' and ansible_distribution_version == '16.04'
-    - mysql_version.stdou == ""
+    - mysql_version.stdout == ""
 
 - name: Configure MySQL for easy access as root user
   action: template src=root.my.cnf.j2 dest=/root/.my.cnf mode=0600
