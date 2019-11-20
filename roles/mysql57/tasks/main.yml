@@ -1,5 +1,11 @@
 ---
 
+- name: Check MySQL version
+  command: "mysql -v"
+  register: mysql_version
+  ignore_errors: true
+  failed_when: "'can be found in the following packages' in mysql_version.stdout"
+
 - name: Install MySQL
   apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time={{ aptcachetime }}
   with_items:
@@ -7,7 +13,9 @@
     - mysql-client-5.7
     - python-mysqldb
     - mytop
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '16.04'
+  when: 
+    - ansible_distribution == 'Ubuntu' and ansible_distribution_version == '16.04'
+    - mysql_version is failed
 
 - name: Configure MySQL Password Lifetime
   lineinfile: dest=/etc/mysql/my.cnf
@@ -25,7 +33,7 @@
     backrefs=yes
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '16.04'
 
-- name: Ensure MySQL is started to change root password
+- name: Ensure MySQL is started
   service: name=mysql state=started
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '16.04'
 
@@ -35,11 +43,15 @@
     - 127.0.0.1
     - ::1
     - localhost
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '16.04'
+  when: 
+    - ansible_distribution == 'Ubuntu' and ansible_distribution_version == '16.04'
+    - mysql_version is failed
 
 - name: Configure MySQL for easy access as root user
   action: template src=root.my.cnf.j2 dest=/root/.my.cnf mode=0600
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '16.04'
+  when: 
+   - ansible_distribution == 'Ubuntu' and ansible_distribution_version == '16.04'
+   - mysql_version is failed
 
 - name: Remove the MySQL test database
   mysql_db: db=test state=absent login_user=root login_password={{ mysql.password }}
