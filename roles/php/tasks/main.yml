@@ -6,6 +6,8 @@
   apt: name={{item}} state=latest
   with_items:
     - php7.3
+    - php7.3-cli
+    - php7.3-common
     - php7.3-bcmath
     - php7.3-ctype
     - php7.3-curl
@@ -14,7 +16,6 @@
     - php7.3-iconv
     - php7.3-intl
     - php7.3-mbstring
-    - php7.3-openssl
     - php7.3-pdo_mysql
     - php7.3-simplexml
     - php7.3-soap
