@@ -12,17 +12,16 @@
     - php7.3-ctype
     - php7.3-curl
     - php7.3-dom
+    - php7.3-fpm
     - php7.3-gd
     - php7.3-iconv
     - php7.3-intl
     - php7.3-mbstring
-    - php7.3-pdo_mysql
+    - php7.3-mysql
     - php7.3-simplexml
     - php7.3-soap
-    - php7.3-spl
     - php7.3-xsl
     - php7.3-zip
-    - php7.3-libxml
 
 - name: Configure PHP 7.3 settings
   lineinfile: dest=/etc/php/7.3/cli/php.ini regexp="^{{ item.param }} =" line="{{ item.param }} = {{ item.value }}"
