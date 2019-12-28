@@ -11,7 +11,6 @@
     - php7.3-curl
     - php7.3-dom
     - php7.3-gd
-    - php7.3-hash
     - php7.3-iconv
     - php7.3-intl
     - php7.3-mbstring
