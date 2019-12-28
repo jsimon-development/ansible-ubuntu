@@ -6,30 +6,32 @@
   apt: name={{item}} state=latest
   with_items:
     - php7.3
-    - php7.3-cli
-    - php7.3-common
+    - php7.3-bcmath
+    - php7.3-ctype
     - php7.3-curl
-    - php7.3-dev
+    - php7.3-dom
     - php7.3-gd
-    - php7.3-mbstring
-    - php7.3-zip
-    - php7.3-mysql
-    - php7.3-xml
-    - php7.3-fpm
-    - php7.3-imagick
-    - php7.3-recode
-    - php7.3-tidy
-    - php7.3-xmlrpc
+    - php7.3-hash
+    - php7.3-iconv
     - php7.3-intl
+    - php7.3-mbstring
+    - php7.3-openssl
+    - php7.3-pdo_mysql
+    - php7.3-simplexml
+    - php7.3-soap
+    - php7.3-spl
+    - php7.3-xsl
+    - php7.3-zip
+    - php7.3-libxml
 
 - name: Configure PHP 7.3 settings
   lineinfile: dest=/etc/php/7.3/cli/php.ini regexp="^{{ item.param }} =" line="{{ item.param }} = {{ item.value }}"
   with_items :
     - { param: error_reporting, value: "E_ALL" }
     - { param: display_errors, value: "On" }
-    - { param: post_max_size, value: "128M" }
-    - { param: upload_max_filesize, value: "128M" }
-    - { param: memory_limit, value: "512M" }
+    - { param: post_max_size, value: "256M" }
+    - { param: upload_max_filesize, value: "256M" }
+    - { param: memory_limit, value: "768M" }
     - { param: max_input_time, value: "30" }
     - { param: max_execution_time, value: "30" }
     - { param: short_open_tag, value: "Off" }
