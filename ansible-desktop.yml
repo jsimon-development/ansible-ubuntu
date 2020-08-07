@@ -4,10 +4,11 @@
   hosts: localhost
   roles:
     # Server
-    - { role: php, become: true }
+    - { role: php56, become: true }
     - { role: php70, become: true }
     - { role: php71, become: true }
     - { role: php72, become: true }
+    - { role: php73, become: true }
     - { role: composer, become: true }
     - { role: mysql57, become: true }
     - { role: nginx, become: true }
